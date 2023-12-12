@@ -27,16 +27,48 @@ public class SingleLinkedListDemo {
         singleLinkedList.update(newHeroNode);
         System.out.println("修改后的链表");
         singleLinkedList.list();
+
+        //删除节点
+        singleLinkedList.del(1);
+        singleLinkedList.del(2);
+        System.out.println("删除节点后的链表");
+        singleLinkedList.list();
+
+        //获取链表节点数
+        System.out.printf("节点数为:%d",getLength(singleLinkedList.getHead()));
+    }
+
+    //获取单链表的节点个数（如果是带头结点的链表，不需要统计头节点）
+    public static int getLength(HeroNode head){
+        if (head.next == null){
+            return 0;
+        }
+        int length = 0;
+        //辅助变量
+        HeroNode cur = head.next;
+        while (cur != null){
+            length++;
+            cur = cur.next;
+        }
+        return length;
     }
 
 
+
 }
+
+
+
 
 //定义SingleLinkedList 管理我们的英雄
 class SingleLinkedList {
     //初始头节点
     private HeroNode head = new HeroNode(0, "", "");
 
+    //返回头节点
+    public HeroNode getHead(){
+        return head;
+    }
     //添加节点到单向链表
     //1。找到最后一个节点
     //2。将最后最后节点的next 指向新的节点
@@ -103,6 +135,28 @@ class SingleLinkedList {
         }else{
             //没有找到
             System.out.printf("没有找到编号为%d的节点",newHeroNode.no);
+        }
+    }
+
+    //删除节点
+    //利用temp节点 temp.next.no 与 需要删除的节点的no比较
+    public void del(int no){
+        HeroNode temp = head;
+        boolean flag = false;//是否找到待删除的节点
+        while (true) {
+            if (temp.next == null) {
+                break;
+            }
+            if (temp.next.no == no) {
+                flag = true;
+                break;
+            }
+            temp = temp.next;
+        }
+        if(flag){
+            temp.next = temp.next.next;
+        }else {
+            System.out.printf("要删除的%d节点不存在",no);
         }
     }
 
